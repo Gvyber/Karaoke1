@@ -9,19 +9,17 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5; /* Fallback color */
-            /* Colorful background with musical items */
-            background-image:
-                url('https://placehold.co/50x50/ADD8E6/000000?text=🎤'), /* Microphone */
-                url('https://placehold.co/50x50/90EE90/000000?text=🎹'), /* Piano */
-                url('https://placehold.co/50x50/FFB6C1/000000?text=🎸'), /* Guitar */
-                url('https://placehold.co/50x50/FFD700/000000?text=🥁'); /* Drums */
-            background-repeat: repeat;
-            background-size: 80px 80px; /* Adjust size of icons */
-            background-position:
-                0px 0px,
-                40px 40px,
-                80px 0px,
-                120px 40px; /* Staggered positions for a pattern */
+            /* Rainbow vertical stripes background */
+            background: linear-gradient(to right,
+                #FF0000, /* Red */
+                #FF7F00, /* Orange */
+                #FFFF00, /* Yellow */
+                #00FF00, /* Green */
+                #0000FF, /* Blue */
+                #4B0082, /* Indigo */
+                #9400D3  /* Violet */
+            );
+            background-size: 100% 100%; /* Ensure gradient covers the whole background */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -38,7 +36,7 @@
             max-width: 800px;
             text-align: center;
             position: relative; /* Needed for z-index */
-            z-index: 10; /* Ensure content is above background images */
+            z-index: 10; /* Ensure content is above background */
         }
         .input-group {
             display: flex;
