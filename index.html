@@ -5,21 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karaoke Night</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for playful styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5; /* Fallback color */
-            /* Rainbow vertical stripes background */
-            background: linear-gradient(to right,
-                #FF0000, /* Red */
-                #FF7F00, /* Orange */
-                #FFFF00, /* Yellow */
-                #00FF00, /* Green */
-                #0000FF, /* Blue */
-                #4B0082, /* Indigo */
-                #9400D3  /* Violet */
-            );
-            background-size: 100% 100%; /* Ensure gradient covers the whole background */
+            /* Custom background image */
+            background-image: url('https://t3.ftcdn.net/jpg/11/74/86/58/360_F_1174865834_x81vOZW6Im1O43XH8K2kL9Z87X9V9ZQV.jpg'); /* Your new custom image URL */
+            background-size: cover; /* This makes the image cover the entire background */
+            background-position: center; /* This centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,12 +24,12 @@
             box-sizing: border-box;
         }
         .container {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.7); /* More translucent white background */
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             padding: 30px;
             width: 100%;
-            max-width: 800px;
+            max-width: 600px; /* Slightly smaller max-width */
             text-align: center;
             position: relative; /* Needed for z-index */
             z-index: 10; /* Ensure content is above background */
@@ -47,34 +43,38 @@
         }
         input[type="text"] {
             flex-grow: 1;
+            max-width: 420px; /* Increased max-width for the input field */
             padding: 12px 15px;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             font-size: 16px;
             outline: none;
             transition: border-color 0.3s ease;
-            min-width: 200px;
+            min-width: 200px; /* Ensure it's still usable on smaller screens */
         }
         input[type="text"]:focus {
             border-color: #6366f1;
         }
         button {
-            background-color: #6366f1;
+            background-color: #5b21b6; /* Dark purple fill */
             color: white;
-            padding: 12px 25px;
-            border: none;
+            padding: 12px 60px; /* Increased horizontal padding for more length */
+            border: 4px solid white; /* Thick white outline */
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 1.5rem; /* Larger font for "Oya" */
+            font-family: 'Dancing Script', cursive; /* Playful font for button */
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(91, 33, 182, 0.4); /* Shadow to match new color */
         }
         button:hover {
-            background-color: #4f46e5;
+            background-color: #4c1d95; /* Slightly darker purple on hover */
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(91, 33, 182, 0.6);
         }
         button:active {
             transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(91, 33, 182, 0.3);
         }
         .video-container {
             position: relative;
@@ -104,11 +104,21 @@
             margin-top: 20px;
             display: none; /* Hidden by default */
         }
+        .title-main { /* New class for main title */
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3rem; /* Larger for impact */
+            color: #333;
+            margin-bottom: 8px;
+        }
         .subtitle {
-            font-size: 1.2rem;
+            font-family: 'Dancing Script', cursive; /* Playful font for subtitle */
+            font-size: 1.8rem; /* Larger subtitle */
             color: #4a5568;
             margin-top: -10px; /* Adjust to bring it closer to the title */
             margin-bottom: 20px;
+        }
+        .text-gray-600 { /* Adjusted for better contrast on translucent background */
+            color: #4a5568;
         }
         .results-container {
             margin-top: 20px;
@@ -169,17 +179,42 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .music-control {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 20; /* Ensure it's above other elements */
+        }
+        .music-control button {
+            background-color: #6366f1;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-family: 'Inter', sans-serif; /* Use a standard font for this control */
+        }
+        .music-control button:hover {
+            background-color: #4f46e5;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Karaoke Night Fun!</h1>
+        <div class="music-control">
+            <button id="toggleMusicButton">Play Music</button>
+        </div>
+
+        <h1 class="title-main">Karaoke Night Fun!</h1>
         <p class="subtitle">Oya you sef run am if e easy</p>
         <p class="text-gray-600 mb-6">Enter a song title to find its karaoke version on YouTube.</p>
 
         <div class="input-group">
             <input type="text" id="songInput" placeholder="e.g., Bohemian Rhapsody">
-            <button id="searchButton">Find Karaoke</button>
+            <button id="searchButton">Oya.....</button>
         </div>
 
         <div id="messageBox" class="message-box"></div>
@@ -194,6 +229,13 @@
         </div>
     </div>
 
+    <!-- Background Audio Element -->
+    <audio id="backgroundMusic" loop volume="0.3">
+        <!-- Generic royalty-free instrumental from a direct MP3 source -->
+        <source src="https://www.bensound.com/bensound-music/bensound-creativeminds.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <script>
         // Get references to DOM elements
         const songInput = document.getElementById('songInput');
@@ -202,6 +244,8 @@
         const messageBox = document.getElementById('messageBox');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const resultsContainer = document.getElementById('resultsContainer');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const toggleMusicButton = document.getElementById('toggleMusicButton');
 
         // YouTube Data API Key
         // For Google APIs like YouTube Data API, if you encounter 403 errors,
@@ -209,6 +253,21 @@
         // You can obtain one from the Google Cloud Console and enable the YouTube Data API v3.
         // Example: const API_KEY = "YOUR_YOUTUBE_API_KEY";
         const API_KEY = "AIzaSyDvEwEJ4UVr1dq1bsiAV1YzB0qbZfrzdLU"; 
+
+        // Set initial volume for background music
+        backgroundMusic.volume = 0.3; // 30% volume
+
+        // Toggle background music on button click
+        toggleMusicButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play().then(() => {
+                    toggleMusicButton.textContent = 'Pause Music';
+                }).catch(e => console.log("Background music play prevented:", e));
+            } else {
+                backgroundMusic.pause();
+                toggleMusicButton.textContent = 'Play Music';
+            }
+        });
 
         /**
          * Displays a message to the user.
@@ -339,6 +398,12 @@
          * @param {string} videoId The ID of the YouTube video to play.
          */
         function playVideo(videoId) {
+            // Pause background music when a YouTube video starts
+            if (!backgroundMusic.paused) {
+                backgroundMusic.pause();
+                toggleMusicButton.textContent = 'Play Music'; // Update button text
+            }
+
             const youtubeEmbedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 
             const iframe = document.createElement('iframe');
